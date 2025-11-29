@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Journaling Widget</title>
+
+<style>
+    :root {
+        --card-bg: #F5EDE9;
+        --beige-light: #FAF6F4;
+        --accent: #C7A48F;
+        --accent-dark: #A47E64;
+        --text-dark: #3A302C;
+        --soft-shadow: rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+        margin: 0;
+        padding: 20px;
+        font-family: "Inter", sans-serif;
+        background: transparent;
+        color: var(--text-dark);
+    }
+
+    /* CARD WIDTH: Medium-wide */
+    .card {
+        width: 820px;   /* ← THIS controls the width (B choice) */
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 28px;
+        margin: auto;
+        box-shadow: 0 6px 18px var(--soft-shadow);
+    }
+
+    .section-label {
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 1.6px;
+        color: #9e8d84;
+        margin-bottom: 8px;
+    }
+
+    .title-row {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:10px;
+    }
+
+    h2 {
+        font-size: 20px;
+        margin:0;
+    }
+
+    .tag {
+        font-size: 12px;
+        padding: 6px 10px;
+        border-radius: 12px;
+        background: var(--beige-light);
+        border: 1px solid #e8ded8;
+        cursor:pointer;
+    }
+
+    .prompt-box {
+        background: var(--beige-light);
+        padding:14px;
+        border-radius:14px;
+        border:1px solid #e8ded8;
+        margin-bottom:14px;
+    }
+
+    textarea {
+        width:100%;
+        height:140px;
+        border-radius:12px;
+        border:1px solid #e8ded8;
+        padding:12px;
+        font-size:14px;
+        resize:none;
+        background:white;
+        margin-bottom:16px;
+    }
+
+    .mood-row {
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-bottom:16px;
+    }
+
+    .mood-option {
+        padding:6px 14px;
+        border-radius:14px;
+        background:#eee3de;
+        font-size:13px;
+        cursor:pointer;
+    }
+
+    .button-row {
+        display:flex;
+        gap:14px;
+        margin-bottom:14px;
+    }
+
+    button {
+        flex:1;
+        padding:10px 0;
+        border-radius:14px;
+        font-size:14px;
+        cursor:pointer;
+        border:none;
+    }
+
+    .save { background: var(--accent-dark); color:white; }
+    .copy { background: var(--accent); color:white; }
+    .clear { background:#eaddd6; color:#5b4a42; }
+
+    .autosave {
+        font-size:12px;
+        opacity:.7;
+        margin-bottom:8px;
+    }
+
+    .footer-note {
+        font-size:12px;
+        opacity:.7;
+        margin-top:10px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="section-label">Wellness</div>
+
+    <div class="title-row">
+        <h2>Today's Journaling</h2>
+        <div class="tag" onclick="setGentle()">Gentle reflection</div>
+    </div>
+
+    <div style="font-size:13px; opacity:.7; margin-bottom:18px;" id="date"></div>
+
+    <div class="prompt-box">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="font-size:13px; opacity:.8;">Prompt of the moment</div>
+            <div class="tag" onclick="shufflePrompt()">Shuffle prompt</div>
+        </div>
+        <div id="prompt" style="font-size:14px;"></div>
+    </div>
+
+    <textarea id="entry"></textarea>
+
+    <div class="mood-row">
+        <div class="mood-option">aligned</div>
+        <div class="mood-option">grateful</div>
+        <div class="mood-option">reflective</div>
+        <div class="mood-option">low energy</div>
+        <div class="mood-option">overwhelmed</div>
+    </div>
+
+    <div class="button-row">
+        <button class="save" onclick="saveEntry()">Save entry</button>
+        <button class="copy" onclick="copyEntry()">Copy text</button>
+        <button class="clear" onclick="clearEntry()">Clear</button>
+    </div>
+
+    <div class="autosave">✓ Auto-saves to this browser</div>
+
+    <div class="footer-note">Today's reminder: Your pace is valid. Your effort counts.</div>
+
+</div>
+
+<script>
+    const prompts = [
+        "What boundary would support you this week?",
+        "What emotion have you been avoiding lately?",
+        "What do you wish you had more time for?",
+        "What is something small you’re proud of today?",
+        "What would your most peaceful day look like?",
+        "What do you need to hear right now?",
+        "What habit would change your life if you committed?",
+        "Who inspires you and why?",
+        "What fear can you release today?",
+        "What are you grateful for this moment?"
+    ];
+
+    function shufflePrompt() {
+        const random = Math.floor(Math.random() * prompts.length);
+        document.getElementById("prompt").innerText = prompts[random];
+        localStorage.setItem("journal-prompt", prompts[random]);
+    }
+
+    function setGentle() {
+        document.getElementById("prompt").innerText =
+            "What would feel gentle and supportive for you today?";
+        localStorage.setItem("journal-prompt",
+            "What would feel gentle and supportive for you today?");
+    }
+
+    function saveEntry() {
+        localStorage.setItem("journal-entry", document.getElementById("entry").value);
+    }
+
+    function copyEntry() {
+        navigator.clipboard.writeText(document.getElementById("entry").value);
+    }
+
+    function clearEntry() {
+        document.getElementById("entry").value = "";
+        saveEntry();
+    }
+
+    function loadSaved() {
+        const saved = localStorage.getItem("journal-entry");
+        if (saved) document.getElementById("entry").value = saved;
+
+        const savedPrompt = localStorage.getItem("journal-prompt");
+        if (savedPrompt) document.getElementById("prompt").innerText = savedPrompt;
+        else shufflePrompt();
+
+        const d = new Date();
+        document.getElementById("date").innerText = d.toLocaleDateString([], {
+            weekday: "short",
+            month: "short",
+            day: "numeric"
+        });
+    }
+
+    loadSaved();
+</script>
+
+</body>
+</html>

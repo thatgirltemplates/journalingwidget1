@@ -2,130 +2,172 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Journaling Widget</title>
+<title>Premium Journaling Widget</title>
 
 <style>
-    :root {
-        --card-bg: #F5EDE9;
-        --beige-light: #FAF6F4;
-        --accent: #C7A48F;
-        --accent-dark: #A47E64;
-        --text-dark: #3A302C;
-        --soft-shadow: rgba(0, 0, 0, 0.08);
-    }
+:root {
+  --card-width: 100%;     /* ← edit width */
+  --card-height: 400px;   /* ← edit height */
 
-    body {
-        margin: 0;
-        padding: 20px;
-        font-family: "Inter", sans-serif;
-        background: transparent;
-        color: var(--text-dark);
-    }
+  --bg-gradient: linear-gradient(180deg, #F4EBE4, #EFE6E1);
+  --surface: #FAF7F5;
+  --text: #3A302C;
+  --accent: #B99372;
+  --accent-soft: #D7C1B3;
+  --border: #E3D7CF;
+  --chip-bg: #EFE7E2;
+}
 
-    /* CARD WIDTH: Medium-wide */
-    .card {
-        width: 820px;   /* ← THIS controls the width (B choice) */
-        background: var(--card-bg);
-        border-radius: 20px;
-        padding: 28px;
-        margin: auto;
-        box-shadow: 0 6px 18px var(--soft-shadow);
-    }
+body {
+  margin: 0;
+  background: transparent;
+  font-family: "Inter", sans-serif;
+  color: var(--text);
+}
 
-    .section-label {
-        text-transform: uppercase;
-        font-size: 12px;
-        letter-spacing: 1.6px;
-        color: #9e8d84;
-        margin-bottom: 8px;
-    }
+.card {
+  width: var(--card-width);
+  max-width: 1150px;
+  height: var(--card-height);
+  background: var(--bg-gradient);
+  border-radius: 22px;
+  padding: 26px 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
 
-    .title-row {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:10px;
-    }
+/* HEADER */
+.label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  opacity: 0.65;
+}
 
-    h2 {
-        font-size: 20px;
-        margin:0;
-    }
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
 
-    .tag {
-        font-size: 12px;
-        padding: 6px 10px;
-        border-radius: 12px;
-        background: var(--beige-light);
-        border: 1px solid #e8ded8;
-        cursor:pointer;
-    }
+.title {
+  font-size: 22px;
+  font-weight: 700;
+}
 
-    .prompt-box {
-        background: var(--beige-light);
-        padding:14px;
-        border-radius:14px;
-        border:1px solid #e8ded8;
-        margin-bottom:14px;
-    }
+.chip {
+  background: var(--chip-bg);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid #e3d8d2;
+  transition: 0.2s;
+}
+.chip:hover { opacity: 0.75; }
 
-    textarea {
-        width:100%;
-        height:140px;
-        border-radius:12px;
-        border:1px solid #e8ded8;
-        padding:12px;
-        font-size:14px;
-        resize:none;
-        background:white;
-        margin-bottom:16px;
-    }
+/* PROMPT */
+.prompt-box {
+  background: var(--surface);
+  margin-top: 14px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .mood-row {
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        margin-bottom:16px;
-    }
+.prompt-text {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+  padding-right: 20px;
+}
 
-    .mood-option {
-        padding:6px 14px;
-        border-radius:14px;
-        background:#eee3de;
-        font-size:13px;
-        cursor:pointer;
-    }
+/* TEXTAREA */
+textarea {
+  width: 100%;
+  height: 110px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  font-size: 15px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #FBF8F6;
+  resize: none;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,0.06);
+  box-sizing: border-box;
+}
 
-    .button-row {
-        display:flex;
-        gap:14px;
-        margin-bottom:14px;
-    }
+/* MOOD */
+.mood-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
 
-    button {
-        flex:1;
-        padding:10px 0;
-        border-radius:14px;
-        font-size:14px;
-        cursor:pointer;
-        border:none;
-    }
+.mood {
+  background: var(--chip-bg);
+  padding: 6px 14px;
+  border-radius: 18px;
+  font-size: 12px;
+  cursor: pointer;
+  border: 1px solid #e6dad3;
+  transition: 0.2s;
+}
+.mood:hover { opacity: 0.7; }
+.mood.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
 
-    .save { background: var(--accent-dark); color:white; }
-    .copy { background: var(--accent); color:white; }
-    .clear { background:#eaddd6; color:#5b4a42; }
+/* BUTTONS */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
 
-    .autosave {
-        font-size:12px;
-        opacity:.7;
-        margin-bottom:8px;
-    }
+.btn {
+  flex: 1;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 0;
+  border-radius: 14px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+.btn:hover { opacity: 0.88; }
 
-    .footer-note {
-        font-size:12px;
-        opacity:.7;
-        margin-top:10px;
-    }
+.btn.secondary {
+  background: var(--accent-soft);
+  color: #fff;
+}
+
+/* FOOTER */
+.footer-note {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+.footer-quote {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 4px;
+  font-style: italic;
+}
 </style>
 </head>
 
@@ -133,102 +175,110 @@
 
 <div class="card">
 
-    <div class="section-label">Wellness</div>
+  <div>
+    <div class="label">WELLNESS</div>
 
-    <div class="title-row">
-        <h2>Today's Journaling</h2>
-        <div class="tag" onclick="setGentle()">Gentle reflection</div>
+    <div class="header-top">
+      <div class="title">Today’s Journaling</div>
+      <div class="chip" onclick="shufflePrompt()">Shuffle prompt</div>
     </div>
 
-    <div style="font-size:13px; opacity:.7; margin-bottom:18px;" id="date"></div>
-
     <div class="prompt-box">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <div style="font-size:13px; opacity:.8;">Prompt of the moment</div>
-            <div class="tag" onclick="shufflePrompt()">Shuffle prompt</div>
-        </div>
-        <div id="prompt" style="font-size:14px;"></div>
+      <div id="prompt" class="prompt-text">
+        What is something small you're proud of today?
+      </div>
     </div>
 
     <textarea id="entry"></textarea>
 
     <div class="mood-row">
-        <div class="mood-option">aligned</div>
-        <div class="mood-option">grateful</div>
-        <div class="mood-option">reflective</div>
-        <div class="mood-option">low energy</div>
-        <div class="mood-option">overwhelmed</div>
+      <div class="mood">aligned</div>
+      <div class="mood">grateful</div>
+      <div class="mood">reflective</div>
+      <div class="mood">low energy</div>
+      <div class="mood">overwhelmed</div>
+      <div class="mood">calm</div>
+      <div class="mood">motivated</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="btn-row">
+      <div class="btn" onclick="saveEntry()">Save entry</div>
+      <div class="btn secondary" onclick="copyEntry()">Copy text</div>
+      <div class="btn secondary" onclick="clearEntry()">Clear</div>
     </div>
 
-    <div class="button-row">
-        <button class="save" onclick="saveEntry()">Save entry</button>
-        <button class="copy" onclick="copyEntry()">Copy text</button>
-        <button class="clear" onclick="clearEntry()">Clear</button>
-    </div>
-
-    <div class="autosave">✓ Auto-saves to this browser</div>
-
-    <div class="footer-note">Today's reminder: Your pace is valid. Your effort counts.</div>
+    <div class="footer-note">✓ Auto-saves to this browser.</div>
+    <div id="quote" class="footer-quote"></div>
+  </div>
 
 </div>
 
 <script>
-    const prompts = [
-        "What boundary would support you this week?",
-        "What emotion have you been avoiding lately?",
-        "What do you wish you had more time for?",
-        "What is something small you’re proud of today?",
-        "What would your most peaceful day look like?",
-        "What do you need to hear right now?",
-        "What habit would change your life if you committed?",
-        "Who inspires you and why?",
-        "What fear can you release today?",
-        "What are you grateful for this moment?"
-    ];
+/* PROMPTS */
+const prompts = [
+  "What boundary would support you this week?",
+  "What is something small you're proud of today?",
+  "What made you smile today?",
+  "What did you learn about yourself recently?",
+  "Where can you be gentler with yourself?",
+  "What fear can you release today?",
+  "How can you show up for yourself tomorrow?",
+  "What inspired you recently?",
+  "What do you want to thank yourself for?"
+];
 
-    function shufflePrompt() {
-        const random = Math.floor(Math.random() * prompts.length);
-        document.getElementById("prompt").innerText = prompts[random];
-        localStorage.setItem("journal-prompt", prompts[random]);
-    }
+function shufflePrompt() {
+  document.getElementById("prompt").innerText =
+    prompts[Math.floor(Math.random() * prompts.length)];
+}
 
-    function setGentle() {
-        document.getElementById("prompt").innerText =
-            "What would feel gentle and supportive for you today?";
-        localStorage.setItem("journal-prompt",
-            "What would feel gentle and supportive for you today?");
-    }
+/* ENTRY SAVE */
+const entryBox = document.getElementById("entry");
+entryBox.value = localStorage.getItem("journalEntry") || "";
 
-    function saveEntry() {
-        localStorage.setItem("journal-entry", document.getElementById("entry").value);
-    }
+function saveEntry() {
+  localStorage.setItem("journalEntry", entryBox.value);
+}
 
-    function copyEntry() {
-        navigator.clipboard.writeText(document.getElementById("entry").value);
-    }
+function copyEntry() {
+  navigator.clipboard.writeText(entryBox.value);
+}
 
-    function clearEntry() {
-        document.getElementById("entry").value = "";
-        saveEntry();
-    }
+function clearEntry() {
+  entryBox.value = "";
+  localStorage.removeItem("journalEntry");
+}
 
-    function loadSaved() {
-        const saved = localStorage.getItem("journal-entry");
-        if (saved) document.getElementById("entry").value = saved;
+/* MOOD TAGS */
+document.querySelectorAll(".mood").forEach(m => {
+  m.addEventListener("click", () => {
+    document.querySelectorAll(".mood").forEach(x => x.classList.remove("active"));
+    m.classList.add("active");
+    localStorage.setItem("journalMood", m.innerText);
+  });
+});
 
-        const savedPrompt = localStorage.getItem("journal-prompt");
-        if (savedPrompt) document.getElementById("prompt").innerText = savedPrompt;
-        else shufflePrompt();
+/* RESTORE MOOD */
+const savedMood = localStorage.getItem("journalMood");
+if (savedMood) {
+  document.querySelectorAll(".mood").forEach(m => {
+    if (m.innerText === savedMood) m.classList.add("active");
+  });
+}
 
-        const d = new Date();
-        document.getElementById("date").innerText = d.toLocaleDateString([], {
-            weekday: "short",
-            month: "short",
-            day: "numeric"
-        });
-    }
+/* DAILY QUOTE */
+const quotes = [
+  "Your pace is valid. Your effort counts.",
+  "Small steps still move you forward.",
+  "Be gentle with the parts of you that are tired.",
+  "You deserve the space you’re creating for yourself.",
+  "Every moment you pause is a moment you heal."
+];
 
-    loadSaved();
+document.getElementById("quote").innerText =
+  quotes[Math.floor(Math.random() * quotes.length)];
 </script>
 
 </body>
